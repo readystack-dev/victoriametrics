@@ -5,7 +5,35 @@ The offline build kit for the Docker image `readystack/victoriametrics:v1.156.0-
 - Release: [v1.156.0-CE-ubuntu24.04-r2](https://github.com/readystack-dev/victoriametrics/releases/tag/v1.156.0-CE-ubuntu24.04-r2)
 - Image: [`docker.io/readystack/victoriametrics:v1.156.0-CE-ubuntu24.04-r2`](https://hub.docker.com/r/readystack/victoriametrics/tags), manifest digest `sha256:7fc267e3a5ff591fb1218fcf2537797bb24a2cde3b27ef259be0fa34b1aa78b4`
 - Product page: https://readystack.dev/products/victoriametrics
+- Source and build recipe: https://readystack.dev/products/victoriametrics/recipe
+- Build trail: https://readystack.dev/products/victoriametrics/trail/v1.156.0-CE-ubuntu24.04-r2
 - Defects: this repository's Issues (defects recorded from 25 November 2026 on) and https://readystack.dev/defects.html?product=victoriametrics
+
+## The image
+
+ReadyStack VictoriaMetrics Community Edition build kit.
+
+## Who uses VictoriaMetrics and why
+
+Operations and SRE teams who store and query large volumes of monitoring metrics.
+
+VictoriaMetrics is a time series database and monitoring solution, open source in both its single-node and cluster versions, with its own query language, MetricsQL.
+
+A typical use: A company's monitoring has outgrown the local storage of its servers. Agents send metrics to a VictoriaMetrics cluster, which keeps them for long-term storage; dashboards query them with MetricsQL, and alert rules run against the same data.
+
+From the upstream project's own description: https://github.com/VictoriaMetrics/VictoriaMetrics, https://docs.victoriametrics.com/.
+
+## This release
+
+- Docker Scout policy grade at release: **A** (94%), graded 2026-11-20 with `docker scout policy` (CLI 1.26.0, docker-default configuration).
+  - Docker Scout counts 10 packages with copyleft licences (GPL, LGPL, MPL), all of them operating-system packages (it counts only packages whose licence it can read; the SBOM lists every component).
+- Signed with ReadyStack's release key (fingerprint `04daa92344a52dbc`): https://readystack.dev/keys/cosign.pub.
+- Runs as a non-root user (`victoriametrics`).
+- Attestations on the image: an SPDX SBOM and SLSA provenance v1.
+- Rebuilt from this kit with network egress blocked on 2026-11-20; the rebuilt image digest is the published one.
+- Base: Ubuntu 24.04.
+
+The current grade, measured again every day, is on https://readystack.dev/products/victoriametrics.
 
 VictoriaMetrics is distributed under its upstream licence (Apache-2.0); the kit contains upstream's source under that licence, and each vendored component under its own.
 
@@ -39,3 +67,5 @@ The build trail (`ReadyStack-victoriametrics-v1.156.0-CE-ubuntu24.04-r2.trail.js
 ## This repository
 
 `recipe/` holds the kit's recipe files (Dockerfiles, build scripts, pins) as published at https://readystack.dev/products/victoriametrics/recipe. The complete kit is the release download. Each release is a tag here.
+
+— ReadyStack · https://readystack.dev
