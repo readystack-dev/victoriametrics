@@ -1,0 +1,17 @@
+{
+  "schema": "kitforge.custody_inputs.v1",
+  "slug": "victoriametrics",
+  "repo": "https://github.com/VictoriaMetrics/VictoriaMetrics",
+  "ref": "v1.156.0",
+  "commit": "0c1bf87a0c9843c30566df0c0aa6593466425ac5",
+  "edition": "CE",
+  "ce_audit": {
+    "ce_only": true,
+    "ee_dirs_found": [],
+    "ee_stripped": [],
+    "allowlisted_benign_paths": [],
+    "method": "top-3-level dir scan, .git excluded, precise EE name match, strategy allowlist applied",
+    "note": "EE forks are separate products \u2014 never packaged. CE-only is pillar #1. allowlisted_benign_paths are OSS-repo artifacts named 'enterprise', NOT EE code.",
+    "rechecked_at": "package_archive"
+  }
+}

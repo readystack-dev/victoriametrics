@@ -1,0 +1,6 @@
+image_manifest_digest=sha256:7fc267e3a5ff591fb1218fcf2537797bb24a2cde3b27ef259be0fa34b1aa78b4
+config_digest=sha256:e26c06ed2f1317370d4f7d91a69f6d7270a615c3dcd80e6648309f51aae78186
+tag=readystack/victoriametrics:v1.156.0-CE-ubuntu24.04-r2
+probe_port=8428
+probe_path=/health
+probe_timeout=180

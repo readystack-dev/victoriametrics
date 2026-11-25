@@ -1,0 +1,114 @@
+{
+  "apt_refresh": [
+    {
+      "min_version": "2.8.4ubuntu0.1",
+      "package": "apt",
+      "reason": "CVE-2026-109518: apt 2.8.3 -> 2.8.4ubuntu0.1"
+    },
+    {
+      "min_version": "2.8.4ubuntu0.1",
+      "package": "libapt-pkg6.0t64",
+      "reason": "CVE-2026-109518: libapt-pkg6.0t64 2.8.3 -> 2.8.4ubuntu0.1"
+    },
+    {
+      "min_version": "10.42-4ubuntu2.2",
+      "package": "libpcre2-8-0",
+      "reason": "CVE-2026-103111, CVE-2026-86145, CVE-2026-89156, CVE-2026-89157 \u2026: libpcre2-8-0 10.42-4ubuntu2.1 -> 10.42-4ubuntu2.2"
+    }
+  ],
+  "binaries_from_component_images": [],
+  "binaries_from_source": [
+    {
+      "build_flags": [
+        "-trimpath",
+        "-mod=vendor"
+      ],
+      "build_tags": [],
+      "cgo_enabled": 0,
+      "ldflags": "-s -w -X github.com/VictoriaMetrics/VictoriaMetrics/lib/buildinfo.Version=victoria-metrics-20261120-085035-tags-@VERSION@-0-g@COMMIT:10@",
+      "main_pkg": "./app/victoria-metrics",
+      "name": "victoria-metrics",
+      "out_path": "/usr/bin/victoria-metrics",
+      "verify_subcmd": "-version"
+    },
+    {
+      "build_flags": [
+        "-trimpath",
+        "-mod=vendor"
+      ],
+      "build_tags": [],
+      "cgo_enabled": 0,
+      "ldflags": "-s -w",
+      "main_pkg": "./app/vmctl",
+      "name": "vmctl",
+      "out_path": "/usr/bin/vmctl",
+      "verify_subcmd": "--help"
+    }
+  ],
+  "build_method": "source-rebuild-go",
+  "chain_id": 1180,
+  "dep_bumps": [
+    {
+      "module": "github.com/go-jose/go-jose/v4",
+      "to": "v4.1.6",
+      "why": "GHSA-mgcc-cww5-fp2q / CVE-2026-116587 (high, published 2026-10-27): github.com/go-jose/go-jose/v4 v4.1.5 -> v4.1.6 (scripts/cve-floor.py)"
+    },
+    {
+      "module": "golang.org/x/net",
+      "to": "v0.62.0",
+      "why": "GO-2026-6860, GO-2026-6866: golang.org/x/net v0.60.0 -> 0.62.0"
+    },
+    {
+      "module": "github.com/klauspost/compress",
+      "to": "v1.20.2",
+      "why": "GO-2026-6865: github.com/klauspost/compress v1.20.1 -> 1.20.2"
+    }
+  ],
+  "expected_residuals": [],
+  "images": [
+    {
+      "digest": "sha256:4fa7c968ba93f1635670522dbb01a2c78150443e1385746924566079f36570ea",
+      "ref": "golang:1.27.4-bookworm",
+      "role": "builder"
+    },
+    {
+      "digest": "sha256:4fa7c968ba93f1635670522dbb01a2c78150443e1385746924566079f36570ea",
+      "ref": "golang:1.27.4-bookworm",
+      "role": "offline_builder"
+    },
+    {
+      "digest": "sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289",
+      "ref": "ubuntu:24.04",
+      "role": "base"
+    }
+  ],
+  "mod_replaces": [],
+  "runtime_base": {
+    "kind": "chisel",
+    "shell": true,
+    "tools": [
+      "tar"
+    ]
+  },
+  "schema": "kitforge.toolchain_lock.v1",
+  "slug": "victoriametrics",
+  "source": {
+    "build_env": {
+      "CGO_ENABLED": "0",
+      "GOFLAGS": "-mod=vendor",
+      "GOTOOLCHAIN": "local"
+    },
+    "builder_image": "golang:1.27.4-bookworm",
+    "commit": "0c1bf87a0c9843c30566df0c0aa6593466425ac5",
+    "commit_epoch": 1793986561,
+    "go_module_root": "github.com/VictoriaMetrics/VictoriaMetrics",
+    "go_version_required": "1.27.3",
+    "ref": "v1.156.0",
+    "repo": "https://github.com/VictoriaMetrics/VictoriaMetrics",
+    "source_date_epoch": 1795164635,
+    "source_date_epoch_basis": "release-cut",
+    "source_date_epoch_provenance": "the time release v1.156.0-CE-ubuntu24.04-r2 was cut (2026-11-20T08:50:35Z), by scripts/retarget.py --rev-bump: ReadyStack dates an image by when its release was packaged (owner 2026-11-10), recorded here once and used by every rebuild of the release; it builds upstream commit 0c1bf87a0c98, dated 2026-11-06T17:36:01Z (source.commit_epoch).",
+    "vendor_committed": true
+  },
+  "version": "v1.156.0"
+}

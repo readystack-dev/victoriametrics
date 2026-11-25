@@ -1,0 +1,81 @@
+{
+  "schema": "kitforge.build_recipe.v1",
+  "slug": "victoriametrics",
+  "image": "readystack/victoriametrics:v1.156.0-CE-ubuntu24.04-r2",
+  "build_method": "source-rebuild-go",
+  "source": {
+    "repo": "https://github.com/VictoriaMetrics/VictoriaMetrics",
+    "ref": "v1.156.0",
+    "builder_image": "golang:1.27.4-bookworm",
+    "go_module_root": "github.com/VictoriaMetrics/VictoriaMetrics",
+    "go_version_required": "1.27.3",
+    "source_date_epoch": 1795164635,
+    "build_env": {
+      "CGO_ENABLED": "0",
+      "GOTOOLCHAIN": "local",
+      "GOFLAGS": "-mod=vendor"
+    },
+    "_version_note": "Retargeted 2026-10-22 to v1.154.1, the latest single-node GA (2026-10-19). go.mod declares `go 1.27.2` with no toolchain directive, so the builder must ship >= 1.27.2 under GOTOOLCHAIN=local (--network=none forbids downloading one); golang:1.27.3-bookworm does and is digest-pinned in the lock. No go.work (L-A50).",
+    "_vendor_note": "vendor/ is committed (177 modules), so -mod=vendor builds offline from the checkout. A dep_bump still requires a re-vendor to physically reach the build. Sets source.vendor_committed so the vendor stage KEEPS upstream's own vendor/ (177 modules) instead of running `go mod tidy -e && go mod vendor` over it. The knob applies only while dep_bumps is empty -- bumps are stated as floors by `go mod edit -require` and need the following tidy to MVS-reconcile them, so the moment a bump is added the normal tidy+re-vendor path returns automatically.",
+    "_ce_note": "Checked for the open-core trap before authoring, because VictoriaMetrics DOES sell an enterprise edition and the repo carries app/vmgateway and app/vmbackupmanager. Both directories contain a README and images and ZERO .go files -- the enterprise source is not in this repository at all. There are no `enterprise` build tags anywhere under app/victoria-metrics or lib/. So no ee_strip is needed and no enterprise code can reach the image or the archive; the only 'enterprise' string in the build path is a version regexp in lib/buildinfo/version.go. Re-checked at v1.154.1 (2026-10-22): app/vmgateway holds a README and three images, app/vmbackupmanager a README, no .go files; LICENSE is Apache-2.0.",
+    "_ui_note": "The vmui web UI is a PREBUILT bundle committed at app/vmselect/vmui (15 tracked files, 852K) and pulled in by `//go:embed vmui` at app/vmselect/main.go:94. There is no npm stage and no node builder -- which is what makes this a one-stage Go build rather than the two-stage shape grafana and zitadel need.",
+    "vendor_committed": true,
+    "source_date_epoch_provenance": "the time release v1.156.0-CE-ubuntu24.04-r2 was cut (2026-11-20T08:50:35Z), by scripts/retarget.py --rev-bump: ReadyStack dates an image by when its release was packaged (owner 2026-11-10), recorded here once and used by every rebuild of the release; it builds upstream commit 0c1bf87a0c98, dated 2026-11-06T17:36:01Z (source.commit_epoch).",
+    "commit": "0c1bf87a0c9843c30566df0c0aa6593466425ac5",
+    "commit_epoch": 1793986561,
+    "source_date_epoch_basis": "release-cut"
+  },
+  "binaries_from_source": [
+    {
+      "name": "victoria-metrics",
+      "main_pkg": "./app/victoria-metrics",
+      "cgo_enabled": 0,
+      "build_tags": [],
+      "build_flags": [
+        "-trimpath",
+        "-mod=vendor"
+      ],
+      "ldflags": "-s -w -X github.com/VictoriaMetrics/VictoriaMetrics/lib/buildinfo.Version=victoria-metrics-20261120-085035-tags-@VERSION@-0-g@COMMIT:10@",
+      "out_path": "/usr/bin/victoria-metrics",
+      "verify_subcmd": "-version",
+      "_note": "Upstream's `victoria-metrics-prod` target builds inside their own docker image; we build the same package directly, which is what `app-local-pure` does (Makefile, CGO_ENABLED=0). The buildinfo string is upstream's own format APP_NAME-DATEINFO_TAG-BUILDINFO_TAG (Makefile:17) and lib/buildinfo.printVersion prints it VERBATIM. It is stamped as a literal rather than shelled out from `git describe`, because a build that reads the git working directory is not reproducible from a source tarball. DATEINFO_TAG is `date -u` at build time upstream; here it is source_date_epoch (2026-10-19T12:23:39Z, the tag's commit), so it is deterministic and truthful. BUILDINFO_TAG is `git describe --long --all | tr / -` on the tagged commit, with git's 10-character abbreviation in this repository: upstream's own v1.154.1 release binary prints victoria-metrics-20261019-123614-tags-v1.154.1-0-g64c2e75fe7 (its date is the build time). The tag and the commit are tokens (@VERSION@, @COMMIT:10@), expanded from the strategy's version and source.commit; the date is a literal and a retarget must move it to the new source_date_epoch's UTC time (the version doc_probe names the whole string, so the retarget lists it). Re-checked 2026-10-27 at v1.155.0: upstream's release binary prints victoria-metrics-20261023-161400-tags-v1.155.0-0-g3fec2f7241 (still the 10-character abbreviation; its date is the build time), and the stamp here renders as victoria-metrics-20261023-154814-tags-v1.155.0-0-g3fec2f7241 (source_date_epoch 1792770494 = 2026-10-23T15:48:14Z)."
+    },
+    {
+      "name": "vmctl",
+      "main_pkg": "./app/vmctl",
+      "cgo_enabled": 0,
+      "build_tags": [],
+      "build_flags": [
+        "-trimpath",
+        "-mod=vendor"
+      ],
+      "ldflags": "-s -w",
+      "out_path": "/usr/bin/vmctl",
+      "verify_subcmd": "--help",
+      "_note": "The migration/import tool -- moves data in from Prometheus, InfluxDB, OpenTSDB or another VictoriaMetrics. Same module, same dependency set, no added CVE surface. The other app/ binaries are cluster components (vminsert/vmselect/vmstorage), agents (vmagent, vmalert), or the VictoriaLogs product, and none belong in a single-node metrics image."
+    }
+  ],
+  "runtime_packages": [
+    "base-files",
+    "base-passwd",
+    "ca-certificates",
+    "coreutils",
+    "dash",
+    "libacl1",
+    "libc6",
+    "libpcre2-8-0",
+    "libselinux1",
+    "libssl3t64",
+    "openssl",
+    "tar",
+    "tzdata"
+  ],
+  "runtime_base": {
+    "kind": "chisel",
+    "shell": true,
+    "tools": [
+      "tar"
+    ],
+    "packages": "vendored/chisel/packages.tsv"
+  }
+}

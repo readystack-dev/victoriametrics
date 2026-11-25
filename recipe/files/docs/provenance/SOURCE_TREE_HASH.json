@@ -1,0 +1,9 @@
+{
+  "schema": "kitforge.source_tree_hash.v1",
+  "slug": "victoriametrics",
+  "repo": "https://github.com/VictoriaMetrics/VictoriaMetrics",
+  "ref": "v1.156.0",
+  "commit": "0c1bf87a0c9843c30566df0c0aa6593466425ac5",
+  "tree_listing_sha256": "cca4d13b23cd161ab98715415845e2c28c951328634649e864f192603afdb117",
+  "file_count": 8928
+}
